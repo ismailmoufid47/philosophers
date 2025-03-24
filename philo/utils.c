@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:30:34 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/23 21:19:41 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:32:51 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ void	free_data(t_data *data)
 	while (++i < data->n_p)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
-		pthread_mutex_destroy(data->phils[i]->meal_lock);
-		free(data->phils[i]->meal_lock);
 		free(data->phils[i]);
 	}
 	free(data->phils);
@@ -31,8 +29,6 @@ void	free_data(t_data *data)
 	free(data->p_lock);
 	free(data);
 }
-
-
 
 time_t	time_ms(void)
 {
@@ -63,40 +59,25 @@ void	*malloc_w(size_t size)
 	return (ptr);
 }
 
-time_t	atot(const char *str)
+unsigned long long	atoull(t_data *data, const char *str)
 {
-	time_t	res;
-	int		i;
+	unsigned long long	res;
+	int					i;
 
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
+		i++;
 	res = 0;
-	i = -1;
-	while (str[++i])
+	while (str[i])
 	{
-		if (str[i] < '0' || str[i] > '9')
+		if (str[i] < '0' || str[i] > '9' || res > res * 10 + (str[i] - '0'))
 		{
+			free(data);
 			printf("Error: Invalid argument\n");
 			exit(1);
 		}
-		res = res * 10 + str[i] - '0';
-	}
-	return (res);
-}
-
-long	atol(const char *str)
-{
-	long	res;
-	int		i;
-
-	res = 0;
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] < '0' || str[i] > '9')
-		{
-			printf("Error: Invalid argument\n");
-			exit(1);
-		}
-		res = res * 10 + str[i] - '0';
+		res = res * 10 + (str[i] - '0');
+		i++;
 	}
 	return (res);
 }
