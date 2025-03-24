@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:30:34 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/24 17:32:51 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:59:04 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	*malloc_w(size_t size)
 	return (ptr);
 }
 
-unsigned long long	atoull(t_data *data, const char *str)
+unsigned long long	atoull(const char *str)
 {
 	unsigned long long	res;
 	int					i;
@@ -71,11 +71,7 @@ unsigned long long	atoull(t_data *data, const char *str)
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9' || res > res * 10 + (str[i] - '0'))
-		{
-			free(data);
-			printf("Error: Invalid argument\n");
-			exit(1);
-		}
+			return (0);
 		res = res * 10 + (str[i] - '0');
 		i++;
 	}

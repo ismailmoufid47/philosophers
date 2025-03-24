@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:10:12 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/24 17:36:20 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:01:00 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,22 @@ void	init_data(t_data *data, int argc, char **av)
 {
 	int	i;
 
-	if (argc < 5 || argc > 6)
+	if (argc < 5 || argc > 6 || !atoull(av[1]) || !atoull(av[2])
+		|| !atoull(av[3]) || !atoull(av[4]) || (argc == 6 && !atoull(av[5])))
 	{
-		printf("Error: Wrong number of arguments\n");
+		printf("Error: Invalid or Wrong number of arguments\n");
 		exit(1);
 	}
 	*data = (t_data){
-		atoull(data, av[1]), atoull(data, av[2]),
-		atoull(data, av[3]), atoull(data, av[4]),
-		.number_to_eat = atoull(data, av[5]), .s_time = time_ms(),
-		.forks = malloc_w(sizeof(t_mutex) * atoull(data, av[1])),
-		.phils = malloc_w(sizeof(t_philo *) * atoull(data, av[1])),
-		.threads = malloc_w(sizeof(t_thread) * atoull(data, av[1])),
+		atoull(av[1]), atoull(av[2]),
+		atoull(av[3]), atoull(av[4]),
+		.number_to_eat = atoull(av[5]), .s_time = time_ms(),
+		.forks = malloc_w(sizeof(t_mutex) * atoull(av[1])),
+		.phils = malloc_w(sizeof(t_philo *) * atoull(av[1])),
+		.threads = malloc_w(sizeof(t_thread) * atoull(av[1])),
 		.is_dead = 0, .p_lock = malloc_w(sizeof(t_mutex))};
 	if (argc == 6)
-		data->number_to_eat = atoull(data, av[5]);
+		data->number_to_eat = atoull(av[5]);
 	pthread_mutex_init(data->p_lock, NULL);
 	i = -1;
 	while (++i < data->n_p)

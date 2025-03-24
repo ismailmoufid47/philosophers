@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:53:55 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/24 17:31:49 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:55:43 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ time_t				time_ms(void);
 void				log_action(t_philo *phil, const char *action);
 void				*malloc_w(size_t size);
 void				free_data(t_data *data);
-unsigned long long	atoull(t_data *data, const char *str);
+unsigned long long	atoull(const char *str);
 
 #endif
