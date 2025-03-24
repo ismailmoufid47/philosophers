@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:53:55 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/24 17:55:43 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/24 21:59:30 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_data
 	time_t				time_to_die;
 	time_t				time_to_eat;
 	time_t				time_to_sleep;
+	int					is_there_n_to_eat;
 	unsigned long long	number_to_eat;
 	t_mutex				*p_lock;
 	t_mutex				*forks;
@@ -48,11 +49,11 @@ struct s_philosopher
 	unsigned long long	n_meals;
 };
 
-void				think(t_philo *phil);
-void				pick_up_forks(t_philo *phil);
-void				eat(t_philo *phil);
-void				put_down_forks(t_philo *phil);
-void				sleep_philo(t_philo *phil);
+int					think(t_philo *phil);
+int					pick_up_forks(t_philo *phil);
+int					eat(t_philo *phil);
+int					put_down_forks(t_philo *phil);
+int					sleep_philo(t_philo *phil);
 time_t				time_ms(void);
 void				log_action(t_philo *phil, const char *action);
 void				*malloc_w(size_t size);

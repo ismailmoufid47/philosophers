@@ -6,55 +6,76 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:20:45 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/24 16:29:47 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/24 21:59:08 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	think(t_philo *phil)
+int	think(t_philo *phil)
 {
 	if (phil->data->is_dead)
-		return ;
+		return (0);
 	log_action(phil, "is thinking");
+	return (1);
 }
 
-void	pick_up_forks(t_philo *phil)
+int	pick_up_forks(t_philo *phil)
 {
 	if (phil->data->is_dead)
-		return ;
+		return (0);
 	pthread_mutex_lock(&phil->data->forks[(phil->id + 1) % phil->data->n_p]);
+	if (phil->data->is_dead)
+		return (0);
 	log_action(phil, "has taken a fork");
-	if ((phil->id + 1) % phil->data->n_p == phil->id)
+	if (phil->data->n_p == 1)
 	{
 		phil->data->is_dead = 1;
-		return ;
+		return (0);
 	}
 	pthread_mutex_lock(&phil->data->forks[phil->id]);
 	log_action(phil, "has taken a fork");
+	return (1);
 }
 
-void	eat(t_philo *phil)
+int	eat(t_philo *phil)
 {
+	time_t	start;
+
 	if (phil->data->is_dead)
-		return ;
+		return (0);
 	log_action(phil, "is eating");
-	usleep(phil->data->time_to_eat * 1000);
+	phil->n_meals++;
 	phil->last_meal = time_ms();
+	start = time_ms();
+	while (time_ms() - start < phil->data->time_to_eat * 1000)
+	{
+		if (phil->data->is_dead)
+		{
+			pthread_mutex_unlock(&phil->data->forks[phil->id]);
+			pthread_mutex_unlock(&phil->data->forks[
+				(phil->id + 1) % phil->data->n_p]);
+			return (0);
+		}
+		usleep(500);
+	}
+	return (1);
 }
 
-void	put_down_forks(t_philo *phil)
+int	put_down_forks(t_philo *phil)
 {
-	if (phil->data->is_dead)
-		return ;
 	pthread_mutex_unlock(&phil->data->forks[phil->id]);
 	pthread_mutex_unlock(&phil->data->forks[(phil->id + 1) % phil->data->n_p]);
+	if (phil->data->is_dead)
+		return (0);
+	return (1);
 }
 
-void	sleep_philo(t_philo *phil)
+int	sleep_philo(t_philo *phil)
 {
 	if (phil->data->is_dead)
-		return ;
+		return (0);
 	log_action(phil, "is sleeping");
 	usleep(phil->data->time_to_sleep * 1000);
+	return (1);
 }

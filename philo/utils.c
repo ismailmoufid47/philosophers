@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:30:34 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/24 17:59:04 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/24 21:27:40 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	log_action(t_philo *phil, const char *action)
 {
 	pthread_mutex_lock(phil->data->p_lock);
 	printf("%-10ld %d %s\n",
-		time_ms() - phil->data->s_time, phil->id, action);
+		time_ms() - phil->data->s_time, phil->id + 1, action);
 	pthread_mutex_unlock(phil->data->p_lock);
 }
 
@@ -76,4 +76,17 @@ unsigned long long	atoull(const char *str)
 		i++;
 	}
 	return (res);
+}
+
+void	usleep_but_check_death(t_philo *phil, time_t time)
+{
+	time_t	start;
+
+	start = time_ms();
+	while (time_ms() - start < time)
+	{
+		if (phil->data->is_dead)
+			return ;
+		usleep(1);
+	}
 }
