@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:53:55 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/24 21:59:30 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:33:56 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int					pick_up_forks(t_philo *phil);
 int					eat(t_philo *phil);
 int					put_down_forks(t_philo *phil);
 int					sleep_philo(t_philo *phil);
+
 time_t				time_ms(void);
 void				log_action(t_philo *phil, const char *action);
 void				*malloc_w(size_t size);

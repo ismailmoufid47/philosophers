@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:20:45 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/24 21:59:08 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:45:03 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ int	eat(t_philo *phil)
 	phil->n_meals++;
 	phil->last_meal = time_ms();
 	start = time_ms();
-	while (time_ms() - start < phil->data->time_to_eat * 1000)
+	while (time_ms() - start
+	
+	 < phil->data->time_to_eat)
 	{
 		if (phil->data->is_dead)
 		{
@@ -57,8 +59,9 @@ int	eat(t_philo *phil)
 				(phil->id + 1) % phil->data->n_p]);
 			return (0);
 		}
-		usleep(500);
+		usleep(1000);
 	}
+	put_down_forks(phil);
 	return (1);
 }
 
@@ -66,8 +69,6 @@ int	put_down_forks(t_philo *phil)
 {
 	pthread_mutex_unlock(&phil->data->forks[phil->id]);
 	pthread_mutex_unlock(&phil->data->forks[(phil->id + 1) % phil->data->n_p]);
-	if (phil->data->is_dead)
-		return (0);
 	return (1);
 }
 

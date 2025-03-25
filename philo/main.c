@@ -6,11 +6,16 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:10:12 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/24 21:59:44 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:46:10 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void check_leaks(void)
+{
+	system("leaks a.out");
+}
 
 void	init_data(t_data *data, int argc, char **av)
 {
@@ -41,16 +46,15 @@ void	init_data(t_data *data, int argc, char **av)
 	}
 }
 
-void	*philsopher(void *arg)
+void	*philosopher(void *arg)
 {
 	t_philo	*phil;
 
 	phil = (t_philo *)arg;
 	if (phil->id % 2 == 0)
 		usleep(500);
-	while (think(phil) && pick_up_forks(phil) && eat(phil)
-		&& put_down_forks(phil) && sleep_philo(phil))
-		continue ;
+	while (think(phil) && pick_up_forks(phil) && eat(phil) && sleep_philo(phil))
+		;
 	return (NULL);
 }
 
@@ -96,14 +100,13 @@ int	main(int argc, char **argv)
 	t_thread	monitor_thread;
 	int			i;
 
+atexit(check_leaks);
 	data = malloc_w(sizeof(t_data));
 	init_data(data, argc, argv);
-	if (data->is_there_n_to_eat)
-		printf("number to eat: %llu\n", data->number_to_eat);
 	i = -1;
 	pthread_create(&monitor_thread, NULL, monitor, data);
 	while (++i < data->n_p)
-		pthread_create(&data->threads[i], NULL, philsopher, data->phils[i]);
+		pthread_create(&data->threads[i], NULL, philosopher, data->phils[i]);
 	i = -1;
 	while (++i < data->n_p)
 		pthread_join(data->threads[i], NULL);

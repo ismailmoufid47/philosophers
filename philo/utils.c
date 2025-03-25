@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:30:34 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/24 21:27:40 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:09:28 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,4 @@ unsigned long long	atoull(const char *str)
 		i++;
 	}
 	return (res);
-}
-
-void	usleep_but_check_death(t_philo *phil, time_t time)
-{
-	time_t	start;
-
-	start = time_ms();
-	while (time_ms() - start < time)
-	{
-		if (phil->data->is_dead)
-			return ;
-		usleep(1);
-	}
 }
