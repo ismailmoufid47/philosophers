@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:20:45 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/26 21:40:26 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/26 22:54:55 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 int	think(t_philo *phil)
 {
-	if (phil->data->done)
-		return (0);
 	log_action(phil, "is thinking");
 	return (1);
 }
 
 int	pick_up_forks(t_philo *phil)
 {
+	pthread_mutex_lock(phil->data->done_lock);
 	if (phil->data->done)
 		return (0);
+	pthread_mutex_unlock(phil->data->done_lock);
 	if (phil->id % 2 == 0)
 		pthread_mutex_lock(&phil->data->forks[phil->id]);
 	else
@@ -47,17 +47,17 @@ int	eat(t_philo *phil)
 {
 	time_t	start;
 
-	if (phil->data->done)
-		return (0);
 	log_action(phil, "is eating");
 	phil->n_meals++;
 	phil->last_meal = time_ms();
 	start = time_ms();
 	while (time_ms() - start < phil->data->time_to_eat)
 	{
+		pthread_mutex_lock(phil->data->done_lock);
 		if (phil->data->done)
 			put_down_forks(phil);
-		usleep(100);
+		pthread_mutex_unlock(phil->data->done_lock);
+		usleep(200);
 	}
 	put_down_forks(phil);
 	return (1);
@@ -73,11 +73,9 @@ int	sleep_philo(t_philo *phil)
 {
 	time_t	start;
 
-	if (phil->data->done)
-		return (0);
 	log_action(phil, "is sleeping");
 	start = time_ms();
 	while (time_ms() - start < phil->data->time_to_sleep)
-		usleep(100);
+		usleep(200);
 	return (1);
 }
