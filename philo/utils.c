@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:30:34 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/25 16:09:28 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/26 21:41:59 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 
 void	free_data(t_data *data)
 {
-	int	i;
+	long	i;
 
-	i = -1;
-	while (++i < data->n_p)
+	i = 0;
+	while (i < data->n_p)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
 		free(data->phils[i]);
+		i++;
 	}
 	free(data->phils);
 	free(data->threads);
@@ -40,6 +41,11 @@ time_t	time_ms(void)
 
 void	log_action(t_philo *phil, const char *action)
 {
+	if (phil->data->done)
+	{
+		pthread_mutex_unlock(phil->data->p_lock);
+		return ;
+	}
 	pthread_mutex_lock(phil->data->p_lock);
 	printf("%-10ld %d %s\n",
 		time_ms() - phil->data->s_time, phil->id + 1, action);
@@ -59,13 +65,13 @@ void	*malloc_w(size_t size)
 	return (ptr);
 }
 
-unsigned long long	atoull(const char *str)
+long	ft_atl(const char *str)
 {
-	unsigned long long	res;
-	int					i;
+	long	res;
+	int		i;
 
 	i = 0;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		i++;
 	res = 0;
 	while (str[i])
