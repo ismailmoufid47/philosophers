@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:10:12 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/27 20:57:12 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/27 21:22:24 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,10 @@ void	init_data(t_data *dt, int argc, char **av)
 		.forks = malloc_w(sizeof(t_mutex) * ft_atl(av[1])),
 		.phils = malloc_w(sizeof(t_philo *) * ft_atl(av[1])),
 		.threads = malloc_w(sizeof(t_thread) * ft_atl(av[1])),
-		.done_lock = malloc_w(sizeof(t_mutex)),
 		.p_lock = malloc_w(sizeof(t_mutex))};
 	if (argc == 6)
 		dt->number_to_eat = ((dt->is_there_n_to_eat = 1), ft_atl(av[5]));
 	pthread_mutex_init(dt->p_lock, NULL);
-	pthread_mutex_init(dt->done_lock, NULL);
 	i = 0;
 	while (i < dt->n_p)
 	{
@@ -72,9 +70,7 @@ int	check_full_philosophers(t_data *data)
 		}
 		if (full_phils == data->n_p)
 		{
-			pthread_mutex_lock(data->done_lock);
 			data->done = 1;
-			pthread_mutex_unlock(data->done_lock);
 			printf("tama ta3bi2at lkirsh bi naja7\n");
 			return (1);
 		}
@@ -96,9 +92,7 @@ void	*monitor(void *arg)
 			if (time_ms() - data->phils[i]->last_meal > data->time_to_die)
 			{
 				log_action(data->phils[i], "died");
-				pthread_mutex_lock(data->done_lock);
 				data->done = 1;
-				pthread_mutex_unlock(data->done_lock);
 				return (NULL);
 			}
 			i++;

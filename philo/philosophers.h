@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:53:55 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/27 20:49:39 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/27 21:22:13 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef struct s_data
 	t_thread					*threads;
 	time_t						s_time;
 	int							done;
-	t_mutex						*done_lock;
 }	t_data;
 
 // Philosopher structure

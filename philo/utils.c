@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:30:34 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/26 22:55:18 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/27 21:34:17 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,21 @@ time_t	time_ms(void)
 
 void	log_action(t_philo *phil, const char *action)
 {
+
+	if (phil->data->done)
+		return ;
 	pthread_mutex_lock(phil->data->p_lock);
-	pthread_mutex_lock(phil->data->done_lock);
+	usleep(10);
 	if (phil->data->done)
 	{
 		pthread_mutex_unlock(phil->data->p_lock);
 		return ;
 	}
-	pthread_mutex_unlock(phil->data->done_lock);
 	printf("%-10ld %d %s\n",
 		time_ms() - phil->data->s_time, phil->id + 1, action);
 	pthread_mutex_unlock(phil->data->p_lock);
 }
+
 
 void	*malloc_w(size_t size)
 {
