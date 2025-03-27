@@ -6,11 +6,11 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:53:55 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/27 21:22:13 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/27 21:44:54 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	PHILOSOPHERS_H
+#ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
 # include <stdio.h>
@@ -31,7 +31,7 @@ typedef struct s_data
 	time_t						time_to_sleep;
 	int							is_there_n_to_eat;
 	long						number_to_eat;
-	t_mutex						*p_lock;
+	t_mutex						p_lock;
 	t_mutex						*forks;
 	t_philo						**phils;
 	t_thread					*threads;

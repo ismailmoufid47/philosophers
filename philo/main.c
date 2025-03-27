@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:10:12 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/27 21:22:24 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/27 21:48:23 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,10 @@ void	init_data(t_data *dt, int argc, char **av)
 		.is_there_n_to_eat = 0, .s_time = time_ms(), .done = 0,
 		.forks = malloc_w(sizeof(t_mutex) * ft_atl(av[1])),
 		.phils = malloc_w(sizeof(t_philo *) * ft_atl(av[1])),
-		.threads = malloc_w(sizeof(t_thread) * ft_atl(av[1])),
-		.p_lock = malloc_w(sizeof(t_mutex))};
+		.threads = malloc_w(sizeof(t_thread) * ft_atl(av[1]))};
 	if (argc == 6)
 		dt->number_to_eat = ((dt->is_there_n_to_eat = 1), ft_atl(av[5]));
-	pthread_mutex_init(dt->p_lock, NULL);
+	pthread_mutex_init(&dt->p_lock, NULL);
 	i = 0;
 	while (i < dt->n_p)
 	{
@@ -47,7 +46,7 @@ void	*philosopher(void *arg)
 
 	phil = (t_philo *)arg;
 	if (phil->id % 2 == 1)
-		usleep(500);
+		usleep(100);
 	while (think(phil) && pick_up_forks(phil) && eat(phil) && sleep_philo(phil))
 		;
 	return (NULL);
