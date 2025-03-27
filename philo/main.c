@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:10:12 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/26 22:56:15 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/27 20:57:12 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	init_data(t_data *dt, int argc, char **av)
 	while (i < dt->n_p)
 	{
 		dt->phils[i] = malloc_w(sizeof(t_philo));
-		*dt->phils[i] = (t_philo){i, dt, time_ms(), 0};
+		*dt->phils[i] = (t_philo){i, dt, dt->s_time, 0};
 		pthread_mutex_init(&dt->forks[i++], NULL);
 	}
 }
