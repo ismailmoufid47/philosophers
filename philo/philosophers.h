@@ -6,11 +6,11 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:53:55 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/26 22:53:45 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/27 20:49:39 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOSOPHERS_H
+#ifndef	PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
 # include <stdio.h>
@@ -52,7 +52,7 @@ struct s_philosopher
 int								think(t_philo *phil);
 int								pick_up_forks(t_philo *phil);
 int								eat(t_philo *phil);
-void								put_down_forks(t_philo *phil);
+void							put_down_forks(t_philo *phil);
 int								sleep_philo(t_philo *phil);
 
 time_t							time_ms(void);
