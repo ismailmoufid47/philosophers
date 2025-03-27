@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:10:12 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/27 21:48:23 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/27 22:35:18 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	*philosopher(void *arg)
 	t_philo	*phil;
 
 	phil = (t_philo *)arg;
-	if (phil->id % 2 == 1)
+	if (phil->id % 2 == 0)
 		usleep(100);
 	while (think(phil) && pick_up_forks(phil) && eat(phil) && sleep_philo(phil))
 		;
