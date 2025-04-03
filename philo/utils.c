@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:30:34 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/03/27 21:47:24 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/03/27 21:34:17 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ void	free_data(t_data *data)
 		free(data->phils[i]);
 		i++;
 	}
-	pthread_mutex_destroy(&data->p_lock);
 	free(data->phils);
 	free(data->threads);
 	free(data->forks);
+	pthread_mutex_destroy(data->p_lock);
+	free(data->p_lock);
 	free(data);
 }
 
@@ -43,16 +44,16 @@ void	log_action(t_philo *phil, const char *action)
 
 	if (phil->data->done)
 		return ;
-	pthread_mutex_lock(&phil->data->p_lock);
+	pthread_mutex_lock(phil->data->p_lock);
 	usleep(10);
 	if (phil->data->done)
 	{
-		pthread_mutex_unlock(&phil->data->p_lock);
+		pthread_mutex_unlock(phil->data->p_lock);
 		return ;
 	}
 	printf("%-10ld %d %s\n",
 		time_ms() - phil->data->s_time, phil->id + 1, action);
-	pthread_mutex_unlock(&phil->data->p_lock);
+	pthread_mutex_unlock(phil->data->p_lock);
 }
 
 
