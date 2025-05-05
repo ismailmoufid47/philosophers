@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 17:05:15 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/05/05 13:46:16 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:56:52 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	destroy_all(t_data *data, char *str, int signal)
 		pthread_mutex_destroy(&data->mutexes.forks[data->philo_count]);
 	pthread_mutex_destroy(&data->mutexes.log_lock);
 	pthread_mutex_destroy(&data->mutexes.meal_lock);
+	pthread_mutex_destroy(&data->mutexes.is_dead_lock);
 	error_message(str, signal);
 }
 
