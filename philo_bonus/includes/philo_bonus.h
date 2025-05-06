@@ -1,27 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 16:54:52 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/05/06 19:35:05 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:32:32 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 /* ============ LIBRARIES ============ */
-# include <stdbool.h>
 # include <semaphore.h>
+# include <stdbool.h>
+# include <pthread.h>
 # include <stdio.h>
 # include <sys/time.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <signal.h>
 
-/* =========== ERROR MESSAGES =========== */
+/* ========= SEMAPHORE NAMES ========= */
+# define F "/forks"
+# define L "/log_lock"
+# define ML "/meal_lock"
+# define ME "/must_eat"
+# define D "/is_dead"
+
+/* ========= CREATION FLAG =========== */
+# define C O_CREAT
+
+/* ========== ERROR MESSAGES ========= */
 # define TIME "Time values"
 # define N_MEALS "Number of Meals each philosopher must eat"
 # define PHILO_MAX_COUNT_MSG "Philosopher count must be between 1 and 200\n"
@@ -29,19 +41,19 @@
 
 /* ========== Type Definitions ========== */
 typedef pthread_t			t_id;
-typedef pthread_mutex_t		t_mutex;
 typedef struct timeval		t_timeval;
 typedef struct s_philo		t_philo;
 typedef struct s_data		t_data;
 
 /* ========== Data Structures ========== */
-typedef struct s_mutexes
+typedef struct s_sems
 {
-	t_mutex					*forks;
-	t_mutex					log_lock;
-	t_mutex					meal_lock;
-	t_mutex					is_dead_lock;
-}	t_mutexes;
+	sem_t					*forks;
+	sem_t					*is_dead;
+	sem_t					*log_lock;
+	sem_t					*meal_lock;
+	sem_t					*must_eat;
+}	t_sems;
 
 typedef struct s_history
 {
@@ -60,26 +72,22 @@ typedef struct s_times
 struct s_philo
 {
 	int						id;
-	t_id					thread_id;
+	pid_t					pid;
 	t_history				history;
-	t_mutex					*left_fork;
-	t_mutex					*right_fork;
 	t_data					*data;
 };
 
 struct s_data
 {
-	t_mutexes				mutexes;
+	t_sems					sems;
 	t_philo					*philos;
 	t_times					time_to;
-	long					must_eat;
+	long					meals_to_eat;
 	int						philo_count;
-	int						is_dead;
 };
 
 /* ========== Initialization Function ========== */
-void		init_data(t_data *data, t_philo *philos,
-				t_mutex *forks, char **argv);
+void		init_data(t_data *data, t_philo *philos, char **argv);
 
 /* ========== Simulation Function ========== */
 void		launch_simulation(t_data *data);
@@ -90,16 +98,13 @@ long		ft_atol(const char *str);
 void		error_message(char *text, int signal);
 void		destroy_all(t_data *data, char *str, int signal);
 void		log_action(t_philo *philo, char *action);
-void		ft_usleep(t_philo *philo, time_t mls);
+void		ft_usleep(time_t mls);
 
 /* ========== Monitor Utils Functions ========== */
-bool		are_you_full(t_philo *philos);
-bool		check_philosopher_death(t_philo *philo);
-void		report_death(t_philo *philo);
-bool		are_you_dead(t_philo *philos);
+void		check_philosopher_death(t_philo *philo);
 
 /* ========== Simulation Status Functions ========== */
 int			simulation_ended(t_data *data);
 void		end_simulation(t_data *data);
 
-#endif   /* PHILO_H */
+#endif   /* PHILO_BONUS_H */

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 16:58:47 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/05/06 15:55:10 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:00:29 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 // ----------------------------------------------------------------------------
 // Validate command line arguments
@@ -52,40 +52,37 @@ void	init_philos(t_data *data, char **argv)
 		philo->id = i + 1;
 		philo->history.meals_eaten = 0;
 		philo->history.last_meal = data->time_to.start;
-		philo->left_fork = &data->mutexes.forks[i];
-		philo->right_fork = &data->mutexes.forks[(i + 1) % count];
 	}
 }
 
 // ----------------------------------------------------------------------------
 // Initialize data instance
-void	init_data(t_data *data, t_philo *philos, t_mutex *forks, char **argv)
+void	init_data(t_data *data, t_philo *philos, char **argv)
 {
-	int		i;
-
 	data->philo_count = ft_atol(argv[1]);
-	if (data->philo_count <= 0 || data->philo_count > 200)
-		error_message("Error: Invalid philosopher count\n", 1);
 	data->time_to.start = get_current_time();
 	data->time_to.die = ft_atol(argv[2]);
 	data->time_to.eat = ft_atol(argv[3]);
 	data->time_to.sleep = ft_atol(argv[4]);
-	data->must_eat = -1;
-	if (argv[5])
-		data->must_eat = ft_atol(argv[5]);
-	data->mutexes.forks = forks;
 	data->philos = philos;
-	i = -1;
-	while (++i < data->philo_count)
-	{
-		if (pthread_mutex_init(&data->mutexes.forks[i], NULL))
-			destroy_all(data, "Mutex Init ERROR\n", 1);
-	}
 	init_philos(data, argv);
-	if (pthread_mutex_init(&data->mutexes.log_lock, NULL)
-		|| pthread_mutex_init(&data->mutexes.meal_lock, NULL)
-		|| pthread_mutex_init(&data->mutexes.is_dead_lock, NULL))
-		destroy_all(data, "Mutex Init ERROR\n", 1);
+	data->sems.forks = (sem_unlink(F), sem_open(F, C, 0644, data->philo_count));
+	data->sems.log_lock = (sem_unlink(L), sem_open(L, C, 0644, 1));
+	data->sems.meal_lock = (sem_unlink(ML), sem_open(ML, C, 0644, 1));
+	data->sems.is_dead = (sem_unlink(D), sem_open(D, C, 0644, 0));
+	data->meals_to_eat = -1;
+	data->sems.must_eat = NULL;
+	if (argv[5])
+	{
+		data->sems.must_eat = (sem_unlink(ME), sem_open(ME, C, 0644, 0));
+		data->meals_to_eat = ft_atol(argv[5]);
+	}
+	if (data->sems.forks == SEM_FAILED
+		|| data->sems.log_lock == SEM_FAILED
+		|| data->sems.meal_lock == SEM_FAILED
+		|| data->sems.must_eat == SEM_FAILED
+		|| data->sems.is_dead == SEM_FAILED)
+		destroy_all(data, "Semaphore Init ERROR\n", 1);
 }
 
 // ----------------------------------------------------------------------------
@@ -93,7 +90,6 @@ void	init_data(t_data *data, t_philo *philos, t_mutex *forks, char **argv)
 int	main(int argc, char **argv)
 {
 	t_philo		philos[200];
-	t_mutex		forks[200];
 	t_data		data;
 
 	if (argc < 5 || argc > 6)
@@ -102,7 +98,7 @@ int	main(int argc, char **argv)
 			"./philo <number_of_phils> <time_to_die> <time_to_eat> "
 			"optional arg: <number_of_times_each_philosopher_must_eat>\n", 1);
 	validate_args(argc, argv);
-	init_data(&data, philos, forks, argv);
+	init_data(&data, philos, argv);
 	launch_simulation(&data);
 	destroy_all(&data, NULL, 0);
 	return (0);
