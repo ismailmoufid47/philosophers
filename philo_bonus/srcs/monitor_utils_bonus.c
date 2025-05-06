@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:51:27 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/05/06 19:32:16 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:33:04 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	check_philosopher_death(t_philo *philo)
 	int		i;
 
 	data = philo->data;
-	if (get_current_time() - philo->history.last_meal > data->time_to.die)
+	if (get_current_time() - philo->history.last_meal >= data->time_to.die)
 	{
 		log_action(philo, "died");
 		sem_post(data->sems.meal_lock);
