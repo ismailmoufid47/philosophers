@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:04:48 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/05/06 17:55:59 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:49:47 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	philo_routine(t_philo *philo)
 	if (philo->left_fork == philo->right_fork)
 	{
 		pthread_mutex_unlock(philo->left_fork);
-		ft_usleep(philo->data->time_to.die);
+		ft_usleep(philo, philo->data->time_to.die);
 		report_death(philo);
 		return ;
 	}
@@ -32,12 +32,12 @@ void	philo_routine(t_philo *philo)
 	log_action(philo, " is eating");
 	philo->history.meals_eaten++;
 	pthread_mutex_unlock(&philo->data->mutexes.meal_lock);
-	ft_usleep(philo->data->time_to.eat);
+	ft_usleep(philo, philo->data->time_to.eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 	log_action(philo, " is thinking");
 	log_action(philo, " is sleeping");
-	ft_usleep(philo->data->time_to.sleep);
+	ft_usleep(philo, philo->data->time_to.sleep);
 }
 
 // ----------------------------------------------------------------------------

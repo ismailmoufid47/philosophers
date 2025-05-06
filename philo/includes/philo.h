@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 16:54:52 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/05/06 19:35:05 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:48:55 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 /* ============ LIBRARIES ============ */
 # include <stdbool.h>
+# include <pthread.h>
 # include <semaphore.h>
 # include <stdio.h>
 # include <sys/time.h>

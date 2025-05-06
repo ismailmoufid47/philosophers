@@ -6,14 +6,14 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:04:48 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/05/06 19:37:06 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:54:37 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
 // ----------------------------------------------------------------------------
-// Philosopher eat/sleep/think routine
+// Philosopher eat/think/sleep routine
 void	philo_routine(t_philo *philo)
 {
 	sem_wait(philo->data->sems.forks);

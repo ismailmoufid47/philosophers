@@ -2,7 +2,12 @@ NAME			= philo
 
 # Compiler
 CC				= cc
-CFLAGS			= -Wall -Wextra -Werror
+CFLAGS			= -Wall -Wextra -Werror 
+
+
+# CFLAGS			+= -fsanitize=thread
+
+
 MKDIR			= mkdir -p
 RM				= rm -rf
 LINKER  	    = -lpthread
