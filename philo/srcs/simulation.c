@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:04:48 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/05/06 19:49:47 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:28:23 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	philo_routine(t_philo *philo)
 	ft_usleep(philo, philo->data->time_to.eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
-	log_action(philo, " is thinking");
 	log_action(philo, " is sleeping");
 	ft_usleep(philo, philo->data->time_to.sleep);
+	log_action(philo, " is thinking");
 }
 
 // ----------------------------------------------------------------------------

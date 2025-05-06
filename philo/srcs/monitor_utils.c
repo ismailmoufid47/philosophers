@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:51:27 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/05/05 13:36:21 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:32:37 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ bool	check_philosopher_death(t_philo *philo)
 	is_dead = false;
 	pthread_mutex_lock(&philo->data->mutexes.meal_lock);
 	if (get_current_time() - philo->history.last_meal
-		> philo->data->time_to.die)
+		>= philo->data->time_to.die)
 		is_dead = true;
 	pthread_mutex_unlock(&philo->data->mutexes.meal_lock);
 	return (is_dead);
