@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 17:05:15 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/05/06 18:57:33 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:27:59 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,13 @@ void	destroy_all(t_data *data, char *str, int signal)
 	sem_close(data->sems.forks);
 	sem_close(data->sems.meal_lock);
 	sem_close(data->sems.log_lock);
+	sem_close(data->sems.is_dead);
+	sem_close(data->sems.must_eat);
 	sem_unlink("/forks");
 	sem_unlink("/meal_lock");
 	sem_unlink("/log_lock");
-	sem_unlink("/philos");
+	sem_unlink("/is_dead");
+	sem_unlink("/must_eat");
 	error_message(str, signal);
 }
 
