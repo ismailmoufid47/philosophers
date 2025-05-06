@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 17:05:15 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/05/05 13:56:52 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:44:06 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	log_action(t_philo *philo, char *action)
 		return ;
 	}
 	pthread_mutex_unlock(&philo->data->mutexes.is_dead_lock);
-	printf("%ld %d%s\n",
+	printf("%ld %d %s\n",
 		get_current_time() - philo->data->time_to.start,
 		philo->id, action);
 	pthread_mutex_unlock(&philo->data->mutexes.log_lock);

@@ -6,7 +6,7 @@
 /*   By: isel-mou <isel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:04:48 by isel-mou          #+#    #+#             */
-/*   Updated: 2025/05/06 21:28:23 by isel-mou         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:43:47 by isel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void	philo_routine(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
-	log_action(philo, " has taken a fork");
+	log_action(philo, "has taken a fork");
 	if (philo->left_fork == philo->right_fork)
 	{
 		pthread_mutex_unlock(philo->left_fork);
@@ -26,18 +26,18 @@ void	philo_routine(t_philo *philo)
 		return ;
 	}
 	pthread_mutex_lock(philo->right_fork);
-	log_action(philo, " has taken a fork");
+	log_action(philo, "has taken a fork");
 	pthread_mutex_lock(&philo->data->mutexes.meal_lock);
 	philo->history.last_meal = get_current_time();
-	log_action(philo, " is eating");
+	log_action(philo, "is eating");
 	philo->history.meals_eaten++;
 	pthread_mutex_unlock(&philo->data->mutexes.meal_lock);
 	ft_usleep(philo, philo->data->time_to.eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
-	log_action(philo, " is sleeping");
+	log_action(philo, "is sleeping");
 	ft_usleep(philo, philo->data->time_to.sleep);
-	log_action(philo, " is thinking");
+	log_action(philo, "is thinking");
 }
 
 // ----------------------------------------------------------------------------
