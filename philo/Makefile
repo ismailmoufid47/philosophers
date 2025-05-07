@@ -5,7 +5,7 @@ CC				= cc
 CFLAGS			= -Wall -Wextra -Werror 
 
 
-# CFLAGS			+= -fsanitize=thread
+#CFLAGS			+= -fsanitize=thread
 
 
 MKDIR			= mkdir -p
